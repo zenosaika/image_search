@@ -12,7 +12,7 @@ if __name__ == '__main__':
     src_dir = 'test/images'
     query_dir = 'queries/queries'
     submission = pd.read_csv('sample_submission.csv')
-    model = AutoModel.from_pretrained('openai/clip-vit-base-patch32').cuda().eval()
+    model = AutoModel.from_pretrained('openai/clip-vit-base-patch32').to("mps").eval()
     processor = CLIPProcessor.from_pretrained('openai/clip-vit-base-patch32')
 
     submission['dot_class'] = 22
@@ -21,7 +21,7 @@ if __name__ == '__main__':
         query_images = []
         query_classes = []
         for file in os.listdir(query_dir):
-            inputs = processor(images=[Image.open(os.path.join(query_dir, file)).convert('RGB')], return_tensors='pt').to('cuda')
+            inputs = processor(images=[Image.open(os.path.join(query_dir, file)).convert('RGB')], return_tensors='pt').to('mps')
             outputs = model.get_image_features(inputs.pixel_values).cpu()
             outputs = outputs / outputs.norm(p=2, dim=-1, keepdim=True)
             query_images.append(outputs)
@@ -30,7 +30,7 @@ if __name__ == '__main__':
         for idx, row in submission.iterrows():
             if not pd.isna(row['class']):
                 continue
-            inputs = processor(images=[Image.open(os.path.join(src_dir, row['img_file'])).convert('RGB')], return_tensors='pt').to('cuda')
+            inputs = processor(images=[Image.open(os.path.join(src_dir, row['img_file'])).convert('RGB')], return_tensors='pt').to('mps')
             outputs = model.get_image_features(inputs.pixel_values).cpu()
             outputs = outputs / outputs.norm(p=2, dim=-1, keepdim=True)
             values = outputs @ query_images.T
