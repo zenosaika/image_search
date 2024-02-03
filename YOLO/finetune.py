@@ -3,7 +3,7 @@ from ultralytics import YOLO
 
 
 WEIGHT = 'best.pt'
-DATASET = 'lite_dataset'
+DATASET = 'augmented_dataset'
 EPOCH = 1
 
 
@@ -16,4 +16,4 @@ else:
     print('[WEIGHT] using YOLOv8x-cls.pt')
 
 # Start training
-model.train(data=DATASET, epochs=EPOCH)
+model.train(data=DATASET, epochs=EPOCH, project='runs')
