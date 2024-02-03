@@ -4,7 +4,7 @@ from ultralytics import YOLO
 
 
 WEIGHT = 'runs/classify/train15/weights/best.pt'
-CONFIDENCE = 0.55
+CONFIDENCE_LEVEL = 0.55
 OUTPUT = 'submission.csv'
 
 
@@ -40,7 +40,7 @@ for idx, row in submission.iterrows():
     predicted_class = classnames[top5[0]]
     confidence = top5conf[0]
 
-    if confidence > CONFIDENCE and predicted_class in prefered_classes:
+    if confidence > CONFIDENCE_LEVEL and predicted_class in prefered_classes:
         submission.at[idx, 'YOLO'] = int(predicted_class)
 
 # Save submission.csv

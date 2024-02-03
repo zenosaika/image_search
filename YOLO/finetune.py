@@ -2,7 +2,7 @@ import os
 from ultralytics import YOLO
 
 
-WEIGHT = 'runs/classify/train15/weights/best.pt'
+WEIGHT = 'best.pt'
 DATASET = 'lite_dataset'
 EPOCH = 1
 
