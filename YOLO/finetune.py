@@ -4,7 +4,7 @@ from ultralytics import YOLO
 
 WEIGHT = 'best.pt'
 DATASET = 'augmented_dataset'
-EPOCH = 1
+EPOCH = 10
 
 
 # Load weight
